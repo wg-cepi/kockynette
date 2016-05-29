@@ -1,0 +1,60 @@
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+
+parameters:
+
+
+php:
+	date.timezone: Europe/Prague
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+
+
+services:
+    #Routes
+	router:  App\RouterFactory::createRouter
+
+	authenticator: App\Model\Authenticator
+	authorizator: App\Model\Authorizator
+
+
+	#Tables
+	- App\Model\Table\Cat
+	- App\Model\Table\Cat_X_Handicap
+	- App\Model\Table\Cat_X_Color
+	- App\Model\Table\Handicap
+	- App\Model\Table\Color
+	- App\Model\Table\User
+	- App\Model\Table\Contact
+	- App\Model\Table\Depozitum
+	- App\Model\Table\Depozitum_X_Contact
+	- App\Model\Table\Vaccination
+	- App\Model\Table\Cat_X_Vaccination
+	- App\Model\Table\Address
+	- App\Model\Table\Image
+	- App\Model\Table\Cat_X_Image
+	- App\Model\Table\Article
+
+
+	#Services
+	Cat: App\Model\Service\Cat
+	Color: App\Model\Service\Color
+	Depozitum: App\Model\Service\Depozitum
+	Handicap: App\Model\Service\Handicap
+	Vaccination: App\Model\Service\Vaccination
+	Contact: App\Model\Service\Contact
+	Address: App\Model\Service\Address
+	Image: App\Model\Service\Image
+	User: App\Model\Service\User
+	Article: App\Model\Service\Article
+
+
+

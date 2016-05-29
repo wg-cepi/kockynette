@@ -1,0 +1,123 @@
+{block content}
+
+    <div class="row">
+    <h1 n:block="title">Přidat kočku</h1>
+    <div class="col-md-10">
+    {form addCatForm, class => 'form-horizontal'}
+        <ul class="errors" n:if="$form->hasErrors()">
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </ul>
+
+        <div class="form-group">
+            {label name, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {input name, class => 'form-control'}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {label born, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {input born, class => 'form-control'}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {label colors, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {input colors, id => 'colors_select', class => 'form-control'}
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $("#colors_select").select2({
+                    tags: true,
+                    placeholder: "Vyberte barvu"
+                });
+            });
+        </script>
+
+        <div class="form-group">
+            {label gender, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {foreach $form[gender]->items as $key => $label}
+                    <div class="radio-inline">
+                        <label n:name="gender:$key"><input n:name="gender:$key"> {$label}</label>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {label castrated, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {foreach $form[castrated]->items as $key => $label}
+                    <div class="radio-inline">
+                        <label n:name="castrated:$key"><input n:name="castrated:$key"> {$label}</label>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            {label depozitum, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {input depozitum, id => 'depozitum_select', class => 'form-control'}
+            </div>
+        </div>
+        <script>
+             $(document).ready(function() {
+                 $("#depozitum_select").select2({
+                     placeholder: "Vyberte depozitum",
+                     allowClear: true
+                 });
+             });
+        </script>
+
+        <div class="form-group">
+            {label vaccinations, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {input vaccinations, id => 'vaccinations_select', class => 'form-control'}
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $("#vaccinations_select").select2({
+                    tags: true,
+                    placeholder: "Vyberte očkování"
+                });
+            });
+        </script>
+
+
+        <div class="form-group">
+            {label handicaps, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {input handicaps, id => 'handicaps_select', class => 'form-control'}
+            </div>
+        </div>
+        <script>
+             $(document).ready(function() {
+                 $("#handicaps_select").select2({
+                     tags: true,
+                     placeholder: "Vyberte handicapy"
+                 });
+             });
+        </script>
+
+        <div class="form-group">
+            {label images, class => 'col-sm-2 control-label'/}
+            <div class="col-sm-10">
+                {input images, class => 'form-control'}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                {input submit class => 'btn btn-default'}
+            </div>
+        </div>
+    {/form}
+    </div>
+    </div>
+{/block}

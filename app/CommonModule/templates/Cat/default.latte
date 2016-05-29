@@ -1,0 +1,21 @@
+{block content}
+    <div class="row">
+        <h1>{if $cat->gender == 'female'}Kočka{else}Kocour{/if} {$cat->name}</h1>
+        <h2>Handicapy</h2>
+        {foreach $cat->related('cat_x_handicap') as $item}
+            {$item->handicap->name}, {$item->created|date:'j.n.Y'}
+        {/foreach}
+        <h2>Očkování</h2>
+        {foreach $cat->related('cat_x_vaccination') as $item}
+            {$item->vaccination->name}, {$item->created|date:'j.n.Y'}
+        {/foreach}
+
+        <h2>Obrázky</h2>
+        {foreach $cat->related('cat_x_image') as $item}
+
+            <a href="{$item->image|imageSrc}" target="_blank">
+                <img class="img-responsive img-thumbnail img-small" src="{$item->image|imageSrc:small}" title="{$item->image->name}"/>
+            </a>
+        {/foreach}
+    </div>
+{/block}

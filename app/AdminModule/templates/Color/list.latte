@@ -1,0 +1,60 @@
+{block content}
+    <div class="row">
+        <div class="row vacenter">
+            <div class="col-md-10 col-sm-10 col-xs-6">
+                <h1 n:block=title>Barvy</h1>
+            </div>
+            <div class="col-md-2 col-sm-10 col-xs-6 text-right">
+                <a n:href=":Admin:Color:add" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Přidat
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h2 class="panel-title">Úprava barvy</h2>
+            </div>
+            <div class="panel-body">
+                <p>Pokud upravíte název barvy, změna se promítne do barev všech koček, které danou barvu mají.</p>
+            </div>
+        </div>
+    </div>
+
+    {if !empty($colors)}
+    <div class="table">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Barva</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {foreach $colors as $color}
+                    <tr>
+                        <td>{$color->name}</td>
+                        <td></td>
+                        <td class="text-right">
+                            <a n:href="Color:edit $color->id" class="btn btn-warning" role="button">Upravit</a>
+                            <a n:href="Color:default $color->id" class="btn btn-default" role="button">Detail</a>
+                        </td>
+                    </tr>
+                {/foreach}
+
+            </tbody>
+        </table>
+    </div>
+    {else}
+        <div class="row">
+            <div class="alert alert-warning">
+                Dosud nebyly vytvořeny žádné barvy
+            </div>
+        </div>
+    {/if}
+
+{/block}

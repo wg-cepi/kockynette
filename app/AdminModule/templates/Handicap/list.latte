@@ -1,0 +1,48 @@
+{block content}
+    <div class="row vacenter" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-10 col-sm-10 col-xs-6">
+            <h1 n:block=title>Handicapy</h1>
+        </div>
+        <div class="col-md-2 col-sm-10 col-xs-6 text-right">
+            <a n:href=":Admin:Handicap:add" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span>
+                Přidat
+            </a>
+        </div>
+    </div>
+
+    {if $handicaps}
+    <div class="table">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Handicap</th>
+                <th>Závažnost</th>
+
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $handicaps as $handicap}
+                <tr>
+                    <td>{$handicap->name}</td>
+                    <td>{$handicap->severity}</td>
+                    <td></td>
+                    <td class="text-right">
+                        <a n:href=":Admin:Handicap:edit $handicap->id" class="btn btn-warning" role="button">Upravit</a>
+                        <a n:href=":Admin:Handicap:default $handicap->id" class="btn btn-default" role="button">Detail</a>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+    </div>
+    {else}
+        <div class="row">
+            <div class="alert alert-warning">
+                Dosud nebyly vytvořeny žádné handicapy
+            </div>
+        </div>
+    {/if}
+{/block}

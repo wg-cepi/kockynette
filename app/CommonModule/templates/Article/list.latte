@@ -1,0 +1,32 @@
+{block content}
+    <div class="row vacenter">
+        <div class="col-md-10 col-sm-10 col-xs-6">
+            <h1 n:block=title>Články</h1>
+        </div>
+        <div class="col-md-2 col-sm-10 col-xs-6 text-right">
+            {if $user->isInRole('admin')}
+                <a n:href=":Moderator:Article:add" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Přidat
+                </a>
+            {/if}
+        </div>
+    </div>
+
+    {if $published->count()}
+        {foreach $published as $article}
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h2 class="panel-title">{$article->headline}, {$article->created|date:'j.n.Y'} {if $article->user}, {$article->user->email}{/if}</h2>
+                </div>
+                <div class="panel-body">
+                    {$article->content|noescape}
+                </div>
+            </div>
+        {/foreach}
+    {else}
+        <div class="alert alert-warning">
+            Oops, zatím nemáme žádné články :(
+        </div>
+    {/if}
+{/block}

@@ -1,0 +1,134 @@
+{block content}
+    <div class="row">
+        <h1 n:block="title">Editace depozita</h1>
+        <div class="col-md-10">
+            {form editDepozitumForm, id => 'depoform', class => 'form-horizontal ajax'}
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
+
+                <div class="form-group">
+                    {label name, class => 'col-sm-2 control-label'/}
+                    <div class="col-sm-10">
+                        {input name, class => 'form-control'}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {label capacity, class => 'col-sm-2 control-label'/}
+                    <div class="col-sm-10">
+                        {input capacity, class => 'form-control'}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {label state, class => 'col-sm-2 control-label'/}
+                    <div class="col-sm-10">
+                        {foreach $form[state]->items as $key => $label}
+                            <div class="radio-inline">
+                                <label n:name="state:$key"><input n:name="state:$key"> {$label}</label>
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {label city, class => 'col-sm-2 control-label'/}
+                    <div class="col-sm-10">
+                        {input city, class => 'form-control'}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {label street, class => 'col-sm-2 control-label'/}
+                    <div class="col-sm-10">
+                        {input street, class => 'form-control'}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {label zip, class => 'col-sm-2 control-label'/}
+                    <div class="col-sm-10">
+                        {input zip, class => 'form-control'}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        {input submit class => 'btn btn-default'}
+                    </div>
+                </div>
+            {/form}
+        </div>
+    </div>
+
+    <div class="row">
+        <h2>Kontakty</h2>
+        <div class="col-md-10">
+            {form addDepozitumContactForm, class => 'form-horizontal'}
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
+
+                <div class="form-group">
+                    {label contacts, class => 'col-sm-2 control-label'/}
+                    <div class="col-sm-10">
+                        {input contacts, id => 'contacts_select', class => 'form-control'}
+                    </div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $("#contacts_select").select2({
+                            tags: true,
+                            placeholder: "Vyberte kontaktní osobu"
+                        });
+                    });
+                </script>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        {input submit class => 'btn btn-default'}
+                    </div>
+                </div>
+            {/form}
+        </div>
+    </div>
+    {if !empty($contacts)}
+    <div class="table">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Jméno</th>
+                <th>Příjmení</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                {foreach $contacts as $contact}
+                    <tr>
+                        <td>{$contact->firstname}</td>
+                        <td>{$contact->lastname}</td>
+                        <td><a href="maito:{$contact->email}">{$contact->email}</a></td>
+                        <td><a href="tel:{$contact->phone}">{$contact->phone}</a></td>
+                        <td></td>
+                        <td class="text-right">
+                            <a n:href="deleteContact! $depo->id, $contact->id" class="btn btn-danger" role="button">Smazat</a>
+                        </td>
+
+                    </tr>
+                {/foreach}
+            </tbody>
+        </table>
+    </div>
+    {else}
+       <div class="row">
+           <div class="alert alert-warning">
+               Toto depozitum nemá žádné kontakty
+           </div>
+       </div>
+    {/if}
+
+{/block}

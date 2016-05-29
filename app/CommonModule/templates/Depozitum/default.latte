@@ -1,0 +1,88 @@
+{block content}
+    <div class="row">
+        <h1>Depozitum {$depo->name}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-8 col-sm-8">
+            <h2>Kočky</h2>
+            {if !empty($cats)}
+                <div class="table">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Jméno</th>
+                            <th>Pohlaví</th>
+                            <th>Očkování</th>
+                            <th>Handicapy</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $cats as $cat}
+                            <tr>
+                                <td><a n:href="Cat:default $cat->id">{$cat->name}</a></td>
+                                <td>{$cat->gender}</td>
+                                <td>{$cat->related('cat_x_vaccination')->count()}</td>
+                                <td>{$cat->related('cat_x_handicap')->count()}</td>
+                                <td>
+                                    {if $user->isInRole('admin')}
+                                        <a class="btn btn-danger" n:href=":Admin:Depozitum:deleteCat do => deleteCat, $depo->id, $cat->id">Smazat</a>
+                                    {/if}
+                                </td>
+                                <td></td>
+                            </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+
+
+            {else}
+                <div class="alert alert-warning">
+                    V tomto depozitu nejsou žádné kočky
+                </div>
+            {/if}
+        </div>
+        <div class="col-xs-4 col-sm-4">
+            <div class="row">
+                {if $user->isInRole('admin')}
+                   <a n:href=":Admin:Depozitum:addCats $depo->id" class="btn btn-success">Přidat kočky</a>
+                {/if}
+            </div>
+            <div class="row">
+                <h2>Adresa</h2>
+                {if $depo->address}
+                    <address>
+                        <span class="address-item">Depozitum {$depo->name}</span>
+                        <span class="address-item">{$depo->address->street}</span>
+                        <span class="address-item">{$depo->address->city}</span>
+                        <span class="address-item">{$depo->address->zip}</span>
+                    </address>
+                {else}
+                    <div class="alert alert-warning">
+                        Toto depozitum neudalo adresu
+                    </div>
+                {/if}
+            </div>
+
+            <div class="row">
+                <h2>Kontakty</h2>
+                {if $depoXcontact && $depoXcontact->count() > 0}
+                    <ul>
+                        {foreach $depoXcontact as $item}
+                            <li>
+                                <a n:href=":Admin:Contact:default $item->contact->id">{$item->contact->firstname} {$item->contact->lastname}</a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                {else}
+                    <div class="alert alert-warning">
+                        Toto depozitum nemá žádné kontaktní osoby
+                    </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+{/block}

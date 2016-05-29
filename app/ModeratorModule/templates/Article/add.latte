@@ -1,0 +1,40 @@
+{block content}
+    <div class="row">
+    <h1 n:block="title">Přidat článek</h1>
+        {form addArticleForm, class => 'form-horizontal'}
+        <ul class="errors" n:if="$form->hasErrors()">
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </ul>
+        <div class="form-group">
+            {label headline, class => 'control-label'/}
+            {input headline, class => 'form-control'}
+        </div>
+
+        <div class="form-group">
+            {input content, id =>'mce-id', class => 'form-control h-300'}
+        </div>
+
+        <div class="form-group">
+            <div class="text-right">
+                {input publish, class => 'form-control'} {label publish, class => 'col-sm-2 control-label'/}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="text-right">
+                {input submit class => 'btn btn-default'}
+            </div>
+        </div>
+    {/form}
+    </div>
+
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            tinymce.init({
+                selector: '#mce-id',
+                language_url : '/assets/js/tinymce/languages/cs_CZ.js'  // site absolute URL
+            });
+        });
+    </script>
+{/block}

@@ -1,0 +1,48 @@
+{block content}
+    <div class="row vacenter" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-10 col-sm-10 col-xs-6">
+            <h1 n:block=title>Očkování</h1>
+        </div>
+        <div class="col-md-2 col-sm-10 col-xs-6 text-right">
+            <a n:href=":Admin:Vaccination:add" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span>
+                Přidat
+            </a>
+        </div>
+    </div>
+
+    {if $vaccinations}
+    <div class="table">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Očkování</th>
+                <th>Důležitost</th>
+                <th>Počet očkovaných koček</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $vaccinations as $vac}
+                <tr>
+                    <td>{$vac->name}</td>
+                    <td>{$vac->severity}</td>
+                    <td>#TODO</td>
+                    <td class="text-right">
+                        <a n:href=":Admin:Vaccination:edit $vac->id" class="btn btn-warning" role="button">Upravit</a>
+                        <a n:href=":Admin:Vaccination:default $vac->id" class="btn btn-default" role="button">Detail</a>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+    </div>
+    {else}
+        <div class="row">
+            <div class="alert alert-warning">
+                Dosud nebyla vytvořeny žádná očkování
+            </div>
+        </div>
+    {/if}
+{/block}

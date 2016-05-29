@@ -1,0 +1,37 @@
+{block content}
+    <div class="row">
+        <h1 n:block=title>Barva - {$color->name}</h1>
+
+        {if !empty($cats)}
+        <div class="table">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Kočky s touto barvou</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {foreach $cats as $cat}
+                        <tr>
+                            <td>{$cat->name}</td>
+                            <td></td>
+                            <td class="text-right">
+                                <a n:href="Cat:default $cat->id" class="btn btn-default" role="button">Detail</a>
+                            </td>
+
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+        {else}
+            <div class="row">
+                <div class="alert alert-warning">
+                    Žádná kočka nemá tuto barvu
+                </div>
+            </div>
+        {/if}
+    </div>
+{/block}

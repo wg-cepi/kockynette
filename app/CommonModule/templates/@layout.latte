@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    {block stylesheets}
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/assets/css/select2.min.css"/>
+    {/block}
+    <style>
+        .vcenter {
+            display: inline-block;
+            vertical-align: middle;
+            float: none;
+        }
+
+        .vacenter {
+            display: flex;
+            align-items: center;
+        }
+
+        .thumbnail-noimg {
+            display: block;
+            padding: 4px;
+            margin-bottom: 20px;
+            line-height: 1.42857143;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            -webkit-transition: border .2s ease-in-out;
+            -o-transition: border .2s ease-in-out;
+            transition: border .2s ease-in-out;
+        }
+
+        .img-small {
+            width: 200px;
+        }
+
+        .img-cat-thumbnail {
+            width: 350px;
+            height: 200px;
+        }
+
+        .w60 {
+            width: 60%;
+        }
+
+        address .address-item {
+            display: block;
+        }
+
+        .spacer-50 {
+            margin-top: 50px;
+        }
+
+        .h-300 {
+            min-height: 300px;
+        }
+    </style>
+
+    {block scripts}
+        <script src="/assets/js/jquery-2.2.3.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+        <script src="/assets/js/netteForms.min.js"></script>
+        <script src="/assets/js/select2.min.js"></script>
+    {/block}
+    <title>{ifset title}{include title|striptags} | {/ifset}Kočičí naděje</title>
+</head>
+
+<body>
+
+{block menu}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Kočičí naděje</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    {if $user->isInRole('admin')}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false">
+                                <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a n:href=":Admin:Handicap:list">Handicapy</a></li>
+                                <li><a n:href=":Admin:Vaccination:list">Očkování</a></li>
+                                <li><a n:href=":Admin:Contact:list">Kontakty</a></li>
+                                <li><a href="#TODO">Adresy</a></li>
+                                <li><a n:href=":Admin:Color:list">Barvy</a></li>
+                                <!--<li><a n:href="Address:default">Adresy</a></li>-->
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    {/if}
+
+                    <li><a n:href=":Common:Cat:list">Kočky</a></li>
+                    <li><a n:href=":Common:Depozitum:list">Depozita</a></li>
+                    <li><a n:href=":Common:Article:list">Články</a></li>
+
+
+                </ul>
+
+                <!--
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a n:href=":Common:Donate:default">Jak nám pomůžete?</a></li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span
+                                    class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {if $user->isLoggedIn()}
+                                <li><a href="#">Můj profil</a></li>
+                                <li><a n:href=":Common:Logout:default">Odhlásit se</a></li>
+                            {else}
+                                <li><a n:href=":Common:Register:default">Registrace</a></li>
+                                <li><a n:href=":Common:Login:default">Přihlášení</a></li>
+                            {/if}
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+{/block}
+
+<div id="wrapper" class="container">
+    <div id="messages">
+        {foreach $flashes as $flash}
+            <div class="alert alert-{$flash->type}">{$flash->message}</div>
+        {/foreach}
+    </div>
+    {include content}
+</div>
+
+<div id="footer">
+
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+{block content}
+    <div class="row vacenter">
+        <div class="col-md-10 col-sm-10 col-xs-6">
+            <h1 n:block=title>Depozita</h1>
+        </div>
+        <div class="col-md-2 col-sm-10 col-xs-6 text-right">
+            {if $user->isInRole('admin')}
+                <a n:href=":Admin:Depozitum:add" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Přidat
+                </a>
+            {/if}
+        </div>
+    </div>
+
+    <div class="row">
+
+        {foreach $collection->getItems() as $depoId => $item}
+            {var $depo = $collection->getDepo($depoId)}
+            {var $catsCount = $collection->getCatsCount($depoId)}
+            <div class="col-sm-6 col-md-4">
+
+                <div class="thumbnail">
+                    <img src="/assets/images/placeholders/320x180.png"/>
+                    <div class="caption">
+                        <div class="row vacenter">
+                            <div class="col-md-10 col-sm-10 col-xs-10">
+                                <h2>{$depo->name}</h2>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-2">
+                                {if $depo->state == 'open'}
+                                    <span class="label label-info">Volno</span>
+                                {else}
+                                    <span class="label label-warning">Plno</span>
+                                {/if}
+                            </div>
+                        </div>
+
+                        <div>
+                            <dl class="dl-horizontal">
+                                <dt>Kapacita</dt>
+                                <dd>
+                                    {$catsCount}/{$depo->capacity}
+                                </dd>
+
+                                <dt>Adresa</dt>
+                                <dd>
+                                    {if $depo->address}
+                                        <address>
+                                            <span>{$depo->name}</span>
+                                            <span>{$depo->address->street}</span>
+                                            <span>{$depo->address->city}</span>
+                                            <span>{$depo->address->zip}</span>
+                                        </address>
+                                    {else}
+                                        -
+                                    {/if}
+                                </dd>
+
+                            </dl>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6">
+                                {if $user->isInRole('admin')}
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="glyphicon glyphicon-cog"></span>
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a n:href=":Admin:Depozitum:edit $depo->id">Upravit</a></li>
+                                            <li><a n:href=":Admin:Depozitum:delete do => delete, $depo->id">Smazat</a></li>
+                                        </ul>
+                                    </div>
+                                {/if}
+                            </div>
+                            <div class="col-md-6 col-xs-6 text-right">
+                                <a n:href="Depozitum:default $depo->id" class="btn btn-default" role="button">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/foreach}
+    </div>
+{/block}

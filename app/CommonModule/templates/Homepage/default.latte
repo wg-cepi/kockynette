@@ -1,0 +1,19 @@
+
+{block content}
+	<div class="row">
+		<h1 n:block="title">Kočičí naděje</h1>
+	</div>
+	<div class="row">
+		<h2>Nové kočky</h2>
+		{foreach $cats as $cat}
+			<p>{$cat->name}</p>
+		{/foreach}
+	</div>
+
+	<div class="row">
+		<h2>Nové články</h2>
+		{foreach $cats as $cat}
+			<p>{$cat->name}</p>
+		{/foreach}
+	</div>
+{/block}

@@ -1,0 +1,15 @@
+parameters:
+    imageDir: %wwwDir%/assets/images
+    assetsDirAbsolute: /assets
+    imagesDirAbsolute: %assetsDirAbsolute%/images
+
+database:
+    default:
+        dsn: 'mysql:host=127.0.0.1;dbname=kocky'
+        user: sso
+        password: sso
+        options:      [PDO::MYSQL_ATTR_COMPRESS = true]
+        debugger:     true        # panel v debugger baru
+        explain:      true        # explain dotazů v debugger bar
+        conventions:  discovered  # nebo static nebo vaší jméno třídy, výchozí je discovered
+        autowired:    true

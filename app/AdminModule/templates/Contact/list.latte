@@ -1,0 +1,54 @@
+{block content}
+    <div class="row vacenter" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-10 col-sm-10 col-xs-6">
+            <h1 n:block=title>Kontakty</h1>
+        </div>
+        <div class="col-md-2 col-sm-10 col-xs-6 text-right">
+            <a n:href="Contact:add" class="btn btn-success">
+                <span class="glyphicon glyphicon-plus"></span>
+                Přidat
+            </a>
+        </div>
+    </div>
+
+    <div class="table">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Jméno</th>
+                <th>Příjmení</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $contacts as $contact}
+                <tr>
+                    <td>{$contact->firstname}</td>
+                    <td>{$contact->lastname}</td>
+                    <td><a href="maito:{$contact->email}">{$contact->email}</a></td>
+                    <td><a href="tel:{$contact->phone}">{$contact->phone}</a></td>
+                    <td></td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-cog"></span>
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a n:href="Contact:edit $contact->id">Upravit</a></li>
+                                <li><a n:href="delete! $contact->id">Smazat</a></li>
+                            </ul>
+                        </div>
+                        <a n:href="Contact:default $contact->id" class="btn btn-default" role="button">Detail</a>
+                    </td>
+
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+    </div>
+{/block}
