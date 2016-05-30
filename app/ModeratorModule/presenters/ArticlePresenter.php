@@ -4,6 +4,9 @@ namespace App\ModeratorModule\Presenters;
 
 use App\Components\Form\ArticleForm;
 use App\Model\Service\Article;
+use App\ModeratorModule\Signals\AddArticleSignal;
+use App\ModeratorModule\Signals\EditArticleSignal;
+use Cepi\DateUtils;
 use Cepi\StringUtils;
 use Nette;
 
@@ -21,6 +24,7 @@ class ArticlePresenter extends BasePresenter
 
         $this->articleService = $this->context->getService('Article');
     }
+
     public function actionAdd()
     {
 
@@ -37,16 +41,92 @@ class ArticlePresenter extends BasePresenter
 
     public function addArticleFormSuccess(Nette\Forms\Form $form)
     {
-        $values = $form->getValues();
-        $this->articleService->insert([
-            'headline' => StringUtils::tmws($values->headline),
-            'content' => $values->content,
-            'state' => $values->publish ? 'published' : 'waiting',
-            'user_id' => $this->getUser()->id,
-            'created' => (new \DateTime())->format('Y-m-d')
-        ]);
+        $signal = new AddArticleSignal($form, $this);
+        $signal->execute();
 
-        $this->flashMessage('Článek přidán', 'success');
         $this->redirect(':Common:Article:list');
     }
+
+    public function actionEdit($id)
+    {
+        $article = $this->articleService->getById($id);
+        if ($article !== false) {
+            if($article->user_id == $this->getUser()->id || $this->getUser()->isInRole('admin')){
+                $this->article = $article;
+                $this->template->article = $article;
+            } else {
+                throw new Nette\Application\BadRequestException('Not authorized', 403);
+            }
+        } else {
+            throw new Nette\Application\BadRequestException('Article does not exist', 404);
+        }
+    }
+
+    public function createComponentEditArticleForm()
+    {
+        $form = new ArticleForm();
+        $form->setDefaults([
+            'headline' => $this->article->headline,
+            'content' => $this->article->content,
+        ]);
+
+        $form->addSubmit('submit', 'Uložit');
+
+        $form->onSuccess[] = [$this, 'editArticleFormSuccess'];
+        return $form;
+    }
+
+    public function editArticleFormSuccess(Nette\Forms\Form $form)
+    {
+        $signal = new EditArticleSignal($form, $this);
+        $signal->execute();
+
+        $this->redirect(':Common:Article:list');
+    }
+
+    /** @secured */
+    public function actionDelete($id)
+    {
+        $article = $this->articleService->getById($id);
+        if ($article !== false) {
+            if($article->user_id == $this->getUser()->id || $this->getUser()->isInRole('admin')){
+                $this->article = $article;
+
+                $this->article->update([
+                    'state' => 'deleted'
+                ]);
+
+                $this->flashMessage('Článek smazán', 'success');
+                $this->redirect(':Common:Article:list');
+            } else {
+                throw new Nette\Application\BadRequestException('Not authorized', 403);
+            }
+        } else {
+            throw new Nette\Application\BadRequestException('Article does not exist', 404);
+        }
+    }
+
+    public function actionPublish($id)
+    {
+        $article = $this->articleService->getById($id);
+        if ($article !== false) {
+            if($article->user_id == $this->getUser()->id || $this->getUser()->isInRole('admin')){
+                $this->article = $article;
+
+                $this->article->update([
+                    'state' => 'published',
+                    'published' => DateUtils::Ymd()
+                ]);
+
+                $this->flashMessage('Článek byl publikován', 'success');
+                $this->redirect(':Common:Article:list');
+            } else {
+                throw new Nette\Application\BadRequestException('Not authorized', 403);
+            }
+        } else {
+            throw new Nette\Application\BadRequestException('Article does not exist', 404);
+        }
+    }
+
+
 }

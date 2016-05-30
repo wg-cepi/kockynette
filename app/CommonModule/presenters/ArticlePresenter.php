@@ -20,9 +20,21 @@ class ArticlePresenter extends BasePresenter
 
         $this->articleService = $this->context->getService('Article');
     }
-
+    public function actionDefault($id)
+    {
+        $article = $this->articleService->getById($id);
+        if ($article !== false) {
+            $this->article = $article;
+            $this->template->article = $article;
+        } else {
+            throw new Nette\Application\BadRequestException('Article does not exist', 404);
+        }
+    }
     public function actionList()
     {
+        if($this->getUser()->isLoggedIn() && ($this->getUser()->isInRole('admin') || $this->getUser()->isInRole('moderator'))) {
+            $this->template->waiting = $this->articleService->getWaiting();
+        }
         $this->template->published = $this->articleService->getPublished();
     }
 

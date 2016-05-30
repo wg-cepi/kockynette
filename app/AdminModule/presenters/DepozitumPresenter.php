@@ -37,12 +37,12 @@ class DepozitumPresenter extends BasePresenter
             ->setType('number')
             ->addRule(Nette\Application\UI\Form::INTEGER, 'Kapacita musí být číslo')
             ->addRule(Nette\Application\UI\Form::MIN, 'Kapacita musí být větší nebo rovna 0', 0)
-            ->setDefaultValue(0)
+            ->setDefaultValue(10)
             ->setRequired('Kapacita musí být vyplněna');
 
         $form->addRadioList('state', 'Stav', [
-            'open' => 'Volno',
-            'full' => 'Plno'
+            'open' => 'Otevřené',
+            'closed' => 'Zavřené'
         ])
             ->setDefaultValue('open')
             ->setRequired('Prosím vyberte stav');
@@ -147,8 +147,8 @@ class DepozitumPresenter extends BasePresenter
             ->setRequired('Kapacita musí být vyplněna');
 
         $form->addRadioList('state', 'Stav', [
-            'open' => 'Volno',
-            'full' => 'Plno'
+            'open' => 'Otevřené',
+            'closed' => 'Zavřené'
         ])
             ->setDefaultValue($this->depo->state)
             ->setRequired('Prosím vyberte stav');
@@ -289,6 +289,7 @@ class DepozitumPresenter extends BasePresenter
             throw new Nette\Application\BadRequestException('Depozitum does not exist', 404);
         } else {
             $this->depo = $depozitum;
+            $this->template->depo = $depozitum;
         }
     }
 
@@ -299,7 +300,9 @@ class DepozitumPresenter extends BasePresenter
         /** @var \App\Model\Service\Cat $catService */
         $catService = $this->context->getService('Cat');
 
-        $form->addMultiSelect('cats', 'Kočky', $catService->getCatsWithoutDepoAsIdNamePairs());
+        $form->addMultiSelect('cats', 'Kočky', $catService->getCatsWithoutDepoAsIdNamePairs())
+            ->setRequired('Vyberte alespoň jednu kočku');
+
         $form->addSubmit('submit', 'Umístit');
         $form->onSuccess[] = array($this, 'addCatsFormSuccess');
 
@@ -311,9 +314,29 @@ class DepozitumPresenter extends BasePresenter
         $values = $form->getValues();
         /** @var \App\Model\Service\Depozitum $depozitumService */
         $depozitumService = $this->context->getService('Depozitum');
-        $depozitumService->addCats($this->depo, $values->cats);
 
-        $this->redirect('default', ['id' => $this->depo->id]);
+        $inputCatsCount = count($values->cats);
+        $catsCount = $depozitumService->getCatsCount($this->depo);
+
+        $newCats = [];
+        if($catsCount < $this->depo->capacity && $this->depo->state == 'open') {
+            foreach ($values->cats as $catId) {
+                if($catsCount < $this->depo->capacity) {
+                    $newCats[] = $catId;
+                    $catsCount++;
+                }
+            }
+        }
+
+        $depozitumService->addCats($this->depo, $newCats);
+
+        if($inputCatsCount !== count($newCats)) {
+            $this->flashMessage('Nějaké kočky nebyly přidány, jelikož by byla překročena kapacita depozita', 'warning');
+        } else {
+            $this->flashMessage('Kočky přidány', 'success');
+        }
+
+        $this->redirect(':Common:Depozitum:default', ['id' => $this->depo->id]);
     }
 
     public function actionDelete($id)
@@ -401,6 +424,6 @@ class DepozitumPresenter extends BasePresenter
             $this->flashMessage('Depozitum neexistuje', 'warning');
         }
 
-        $this->redirect('default', ['id' => $did]);
+        $this->redirect(':Common:Depozitum:default', ['id' => $this->depo->id]);
     }
 }

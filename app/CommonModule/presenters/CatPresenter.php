@@ -2,6 +2,7 @@
 
 namespace App\CommonModule\Presenters;
 
+use App\Components\Form\Filter\CatFilterForm;
 use App\Model\Service\Cat;
 use Nette;
 
@@ -52,33 +53,14 @@ class CatPresenter extends BasePresenter
 
         $filter = $this->session->getSection('cat')->filter;
 
-        $form = new Nette\Application\UI\Form();
-        $form->addText('name', 'Jméno')
-            ->setDefaultValue(isset($filter['name']) ? $filter['name'] : '');
+        $form = new CatFilterForm();
 
-        $form->addRadioList('gender', 'Pohlaví', [
-            'male' => 'kocour',
-            'female' => 'kočka',
-            'dc' => 'Nezáleží'
-        ])
-            ->setDefaultValue(isset($filter['gender']) ? $filter['gender'] : 'dc')
-            ->setRequired('Prosím zvolte pohlaví');
-
-        $form->addRadioList('castrated', 'Kastrovaná', [
-            1 => 'Ano',
-            0 => 'Ne',
-            'dc' => 'Nezáleží'
-        ])
-            ->setDefaultValue(isset($filter['castrated']) ? $filter['castrated'] : 'dc')
-            ->setRequired();
-
-        $form->addRadioList('handicapped', 'Handicapovaná', [
-            1 => 'Ano',
-            0 => 'Ne',
-            'dc' => 'Nezáleží'
-        ])
-            ->setDefaultValue(isset($filter['handicapped']) ? $filter['handicapped'] : 'dc')
-            ->setRequired();
+        $form->setDefaults([
+            'name' => isset($filter['name']) ? $filter['name'] : '',
+            'gender' => isset($filter['gender']) ? $filter['gender'] : 'dc',
+            'castrated' => isset($filter['castrated']) ? $filter['castrated'] : 'dc',
+            'handicapped' => isset($filter['handicapped']) ? $filter['handicapped'] : 'dc',
+        ]);
 
         $multiselectColors = $form->addMultiSelect('colors', 'Barvy', $colorService->getAllAsIdNamePairs());
         if(!empty($filter['colors'])) {
@@ -108,6 +90,7 @@ class CatPresenter extends BasePresenter
             $section = $this->session->getSection('cat');
             $section->filter = $form->getValues(true);
         }
+
         $this->redirect('list');
     }
 }

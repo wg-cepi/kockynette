@@ -1,10 +1,11 @@
 {block content}
     <div class="row vacenter">
+
         <div class="col-md-10 col-sm-10 col-xs-6">
             <h1 n:block=title>Články</h1>
         </div>
         <div class="col-md-2 col-sm-10 col-xs-6 text-right">
-            {if $user->isInRole('admin')}
+            {if $user->isInRole('admin') || $user->isInRole('moderator')}
                 <a n:href=":Moderator:Article:add" class="btn btn-success">
                     <span class="glyphicon glyphicon-plus"></span>
                     Přidat
@@ -13,20 +14,100 @@
         </div>
     </div>
 
+    {if $user->isInRole('admin') || $user->isInRole('moderator')}
+        <div class="row">
+            <h2>Články čekající na schválení</h2>
+            {if $waiting->count()}
+                <div class="table">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Název</th>
+                            <th>Autor</th>
+                            <th>Vytvořen</th>
+                            <th>Publikován</th>
+                            <th>Editován</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {foreach $waiting as $article}
+                            <tr>
+                                <td>{$article->headline}</td>
+                                <td>{if $article->user}{$article->user->email}{else}Neuveden{/if}</td>
+                                <td>{$article->created|date:'j.n.Y'}</td>
+                                <td>{$article->published|date:'j.n.Y'}</td>
+                                <td>{$article->edited|date:'j.n.Y'}</td>
+                                <td class="text-right">
+                                    <a n:href=":Moderator:Article:publish $article->id" class="btn btn-success" role="button">Publikovat</a>
+                                    <a n:href=":Moderator:Article:delete $article->id" class="btn btn-danger" role="button">Smazat</a>
+                                    <a n:href=":Common:Article:default $article->id" class="btn btn-default" role="button">Detail</a>
+                                </td>
+
+                            </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            {else}
+                <div class="alert alert-info">
+                    Žádné články nečekají na schválení
+                </div>
+            {/if}
+        </div>
+        <div class="spacer-20"></div>
+        <div class="row">
+            <h2>Publikované články</h2>
+        </div>
+    {/if}
     {if $published->count()}
         {foreach $published as $article}
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h2 class="panel-title">{$article->headline}, {$article->created|date:'j.n.Y'} {if $article->user}, {$article->user->email}{/if}</h2>
-                </div>
-                <div class="panel-body">
-                    {$article->content|noescape}
+            <div class="row">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <div class="row vacenter">
+                            <div class="col-xs-6 text-left" ><h2 class="panel-title">{$article->headline}</h2></div>
+                            <div class="col-xs-6 text-right" >
+                                {if $user->isInRole('admin') || $user->id == $article->user_id}
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="glyphicon glyphicon-cog"></span>
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a n:href=":Moderator:Article:edit $article->id">Upravit</a></li>
+                                            <li><a n:href=":Moderator:Article:delete $article->id">Smazat</a></li>
+                                        </ul>
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body">
+                        {$article->content|noescape}
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-xs-6 text-left" >Autor:{if $article->user}{$article->user->email}{else}Neuveden{/if}</div>
+                            <div class="col-xs-6 text-right" >
+                                <span>Publikován: {$article->published|date:'j.n.Y'}</span>
+                                {if $article->edited > $article->published}
+                                    <span>Poslední editace: {$article->edited|date:'j.n.Y'}</span>
+                                {/if}
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         {/foreach}
     {else}
-        <div class="alert alert-warning">
-            Oops, zatím nemáme žádné články :(
+        <div class="row">
+            <div class="alert alert-warning">
+                Oops, zatím nemáme žádné články :(
+            </div>
         </div>
     {/if}
 {/block}

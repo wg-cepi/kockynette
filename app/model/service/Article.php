@@ -29,6 +29,11 @@ class Article extends AbstractService
         return $this->article->where('state = ?', 'published');
     }
 
+    public function getWaiting()
+    {
+        return $this->article->where('state = ?', 'waiting');
+    }
+
     public function getPublishedTeasers($teaserLength = 300)
     {
         return $this->article->select(

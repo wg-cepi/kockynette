@@ -1,8 +1,6 @@
 <?php
 namespace App\Components\Form;
 
-use Nette\Forms\Form;
-
 class ArticleForm extends AbstractForm
 {
     public function create()
@@ -13,7 +11,11 @@ class ArticleForm extends AbstractForm
         $this->addTextArea('content', 'Obsah')
             ->setRequired('Článek musí mít nějaký obsah');
 
-        $this->addCheckbox('publish', 'Publikovat')
-            ->setDefaultValue(1);
+        $this->addRadioList('state', 'Stav', [
+            'published' => 'Publikovaný',
+            'waiting' => 'Čekající na schválení'
+        ])
+            ->setDefaultValue('published')
+            ->setRequired('Prosím zvolte stav');
     }
 }

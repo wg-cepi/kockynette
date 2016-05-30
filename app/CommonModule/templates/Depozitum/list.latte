@@ -23,16 +23,23 @@
                 <div class="thumbnail">
                     <img src="/assets/images/placeholders/320x180.png"/>
                     <div class="caption">
-                        <div class="row vacenter">
-                            <div class="col-md-10 col-sm-10 col-xs-10">
-                                <h2>{$depo->name}</h2>
-                            </div>
-                            <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="row">
+                            <div class="col-xs-12">
                                 {if $depo->state == 'open'}
-                                    <span class="label label-info">Volno</span>
+                                    <span class="label label-success">Otevřené</span>
                                 {else}
-                                    <span class="label label-warning">Plno</span>
+                                    <span class="label label-danger">Zavřené</span>
                                 {/if}
+                                {if $catsCount < $depo->capacity}
+                                    <span class="label label-success">Volná místa</span>
+                                {else}
+                                    <span class="label label-danger">Plno</span>
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2>{$depo->name}</h2>
                             </div>
                         </div>
 

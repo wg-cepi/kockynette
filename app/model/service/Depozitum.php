@@ -61,6 +61,11 @@ class Depozitum extends AbstractService
         return $this->cat->where('depozitum_id = ?', $depozitum->id);
     }
 
+    public function getCatsCount($depozitum)
+    {
+        return $this->cat->where('depozitum_id = ?', $depozitum->id)->count();
+    }
+
     public function getContacts($depozitum)
     {
         $result = [];

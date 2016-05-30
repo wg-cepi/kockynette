@@ -1,7 +1,7 @@
 {block content}
     <div class="row">
-        <h1 n:block="title">Přidat článek</h1>
-        {form addArticleForm, class => 'form-horizontal'}
+        <h1 n:block="title">Editace článku</h1>
+        {form editArticleForm, class => 'form-horizontal'}
             <ul class="errors" n:if="$form->hasErrors()">
                 <li n:foreach="$form->errors as $error">{$error}</li>
             </ul>
@@ -19,7 +19,7 @@
                     {label state, class => 'control-label'/}
                     {foreach $form[state]->items as $key => $label}
                         <div class="radio-inline">
-                            <label n:name="state:$key"><input n:name="state:$key">{$label}</label>
+                            <label n:name="state:$key"><input n:name="state:$key"> {$label}</label>
                         </div>
                     {/foreach}
                 </div>
