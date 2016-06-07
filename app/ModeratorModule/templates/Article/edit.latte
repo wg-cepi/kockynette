@@ -11,7 +11,13 @@
             </div>
 
             <div class="form-group">
-                {input content, id =>'mce-id', class => 'form-control h-300'}
+                {label teaser, class => 'control-label'/} (maximálně 1000 znaků)
+                {input teaser, id =>'mce-id1', class => 'form-control'}
+            </div>
+
+            <div class="form-group">
+                {label content, class => 'control-label'/}
+                {input content, id =>'mce-id2', class => 'form-control h-300'}
             </div>
 
             <div class="form-group">
@@ -37,7 +43,14 @@
     <script>
         $(document).ready(function(){
             tinymce.init({
-                selector: '#mce-id',
+                selector: '#mce-id1',
+                language_url : '/assets/js/tinymce/languages/cs_CZ.js'  // site absolute URL
+            });
+        });
+
+        $(document).ready(function(){
+            tinymce.init({
+                selector: '#mce-id2',
                 language_url : '/assets/js/tinymce/languages/cs_CZ.js'  // site absolute URL
             });
         });

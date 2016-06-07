@@ -122,7 +122,7 @@ class Cat extends AbstractService
 
     public function getNewest($limit = 10)
     {
-        return $this->cat->limit($limit)->order('created ASC');
+        return $this->cat->limit($limit)->order('created DESC');
     }
 
 

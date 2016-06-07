@@ -8,6 +8,9 @@ class ArticleForm extends AbstractForm
         $this->addText('headline', 'Nadpis')
             ->setRequired('Článek musí mít titulek');
 
+        $this->addTextArea('teaser', 'Souhrn')
+            ->setRequired('Článek musí mít nějaký souhrn');
+
         $this->addTextArea('content', 'Obsah')
             ->setRequired('Článek musí mít nějaký obsah');
 

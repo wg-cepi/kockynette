@@ -63,7 +63,6 @@
     </style>
 
     {block scripts}
-        <script src="/assets/js/bundle.js"></script>
         <script src="/assets/js/jquery-2.2.3.min.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
         <script src="/assets/js/netteForms.min.js"></script>
@@ -103,7 +102,7 @@
                                 <li><a n:href=":Admin:Handicap:list">Handicapy</a></li>
                                 <li><a n:href=":Admin:Vaccination:list">Očkování</a></li>
                                 <li><a n:href=":Admin:Contact:list">Kontakty</a></li>
-                                <li><a href="#TODO">Adresy</a></li>
+                                <li><a n:href=":Admin:Address:list">Adresy</a></li>
                                 <li><a n:href=":Admin:Color:list">Barvy</a></li>
                                 <!--<li><a n:href="Address:default">Adresy</a></li>-->
                                 <li role="separator" class="divider"></li>
@@ -165,6 +164,9 @@
 
 <div id="footer">
     <div id="hello"></div>
+    {*TODO react
+    <script src="/assets/js/bundle.js"></script>
+    *}
 </div>
 </body>
 </html>

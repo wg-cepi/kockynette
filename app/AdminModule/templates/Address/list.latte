@@ -1,0 +1,52 @@
+{block content}
+    <div class="row">
+        <div class="row vacenter">
+            <div class="col-md-10 col-sm-10 col-xs-6">
+                <h1 n:block=title>Adresy</h1>
+            </div>
+            <div class="col-md-2 col-sm-10 col-xs-6 text-right">
+                <a href=":Admin:Address:add" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Přidat
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {if $addresses->count() > 0}
+    <div class="table">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Ulice</th>
+                <th>Město</th>
+                <th>PSČ</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {foreach $addresses as $adr}
+                    <tr>
+                        <td>{$adr->street}</td>
+                        <td>{$adr->city}</td>
+                        <td>{$adr->zip}</td>
+                        <td class="text-right">
+                            <a n:href="Address:edit $adr->id" class="btn btn-warning" role="button">Upravit</a>
+                            <a n:href="Address:default $adr->id" class="btn btn-default" role="button">Detail</a>
+                        </td>
+                    </tr>
+                {/foreach}
+
+            </tbody>
+        </table>
+    </div>
+    {else}
+        <div class="row">
+            <div class="alert alert-warning">
+                Dosud nebyly vytvořeny žádné adresy
+            </div>
+        </div>
+    {/if}
+
+{/block}

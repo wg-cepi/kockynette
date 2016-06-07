@@ -14,6 +14,7 @@ class AddArticleSignal extends AbstractFormSignal
         $values = $this->form->getValues();
         $parameters = [
             'headline' => StringUtils::tmws($values->headline),
+            'teaser' => $values->teaser,
             'content' => $values->content,
             'state' => $values->state,
             'user_id' => $this->presenter->getUser()->id,

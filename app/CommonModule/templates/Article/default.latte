@@ -1,3 +1,8 @@
 {block content}
-
+    <div class="row">
+        <h1 n:block=title>{$article->headline}</h1>
+        <div class="col-xs-12">
+            {$article->content|noescape}
+        </div>
+    </div>
 {/block}

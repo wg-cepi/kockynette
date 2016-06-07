@@ -34,6 +34,11 @@ class Article extends AbstractService
         return $this->article->where('state = ?', 'waiting');
     }
 
+    public function getPublishedNewest($limit = 10)
+    {
+        return $this->article->where('state = ?', 'published')->limit($limit)->order('published DESC');
+    }
+
     public function getPublishedTeasers($teaserLength = 300)
     {
         return $this->article->select(

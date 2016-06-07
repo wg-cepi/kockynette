@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    {if $vaccinations}
+    {if $vaccinations->count() > 0}
     <div class="table">
     <table class="table table-hover">
         <thead>
@@ -28,7 +28,7 @@
                 <tr>
                     <td>{$vac->name}</td>
                     <td>{$vac->severity}</td>
-                    <td>#TODO</td>
+                    <td>{$vac->related('cat')->count()}</td>
                     <td class="text-right">
                         <a n:href=":Admin:Vaccination:edit $vac->id" class="btn btn-warning" role="button">Upravit</a>
                         <a n:href=":Admin:Vaccination:default $vac->id" class="btn btn-default" role="button">Detail</a>
@@ -41,7 +41,7 @@
     {else}
         <div class="row">
             <div class="alert alert-warning">
-                Dosud nebyla vytvořeny žádná očkování
+                Dosud nebyly vytvořeny žádná očkování
             </div>
         </div>
     {/if}

@@ -49,11 +49,10 @@ class ArticlePresenter extends BasePresenter
 
     public function actionEdit($id)
     {
-        $article = $this->articleService->getById($id);
-        if ($article !== false) {
-            if($article->user_id == $this->getUser()->id || $this->getUser()->isInRole('admin')){
-                $this->article = $article;
-                $this->template->article = $article;
+        $this->article = $this->articleService->getById($id);
+        if ($this->article !== false) {
+            if($this->article->user_id == $this->getUser()->id || $this->getUser()->isInRole('admin')){
+                $this->template->article = $this->article;
             } else {
                 throw new Nette\Application\BadRequestException('Not authorized', 403);
             }
@@ -67,6 +66,7 @@ class ArticlePresenter extends BasePresenter
         $form = new ArticleForm();
         $form->setDefaults([
             'headline' => $this->article->headline,
+            'teaser' => $this->article->teaser,
             'content' => $this->article->content,
         ]);
 

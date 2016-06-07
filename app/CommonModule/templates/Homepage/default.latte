@@ -12,8 +12,8 @@
 
 	<div class="row">
 		<h2>Nové články</h2>
-		{foreach $cats as $cat}
-			<p>{$cat->name}</p>
+		{foreach $articles as $article}
+			<p><a n:href=":Common:Article:default $article->id">{$article->headline}</a></p>
 		{/foreach}
 	</div>
 {/block}

@@ -68,7 +68,7 @@
                         <div class="row vacenter">
                             <div class="col-xs-6 text-left" ><h2 class="panel-title">{$article->headline}</h2></div>
                             <div class="col-xs-6 text-right" >
-                                {if $user->isInRole('admin') || $user->id == $article->user_id}
+                                {if $user->isInRole('admin') || ($user->isInRole('moderator') && $user->id == $article->user_id)}
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="glyphicon glyphicon-cog"></span>
@@ -86,7 +86,7 @@
 
                     </div>
                     <div class="panel-body">
-                        {$article->content|noescape}
+                        {$article->teaser|noescape}
                     </div>
                     <div class="panel-footer">
                         <div class="row">
