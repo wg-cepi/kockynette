@@ -29,5 +29,7 @@ class CatFilterForm extends AbstractForm
             'dc' => 'Nezáleží'
         ])
             ->setRequired();
+
+        $this->setMethod('get');
     }
 }

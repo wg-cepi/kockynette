@@ -21,7 +21,7 @@
                 <th>Ulice</th>
                 <th>Město</th>
                 <th>PSČ</th>
-                <th></th>
+                {*<th></th>*}
             </tr>
             </thead>
             <tbody>
@@ -31,10 +31,11 @@
                         <td>{$adr->street}</td>
                         <td>{$adr->city}</td>
                         <td>{$adr->zip}</td>
-                        <td class="text-right">
+                        {*<td class="text-right">
                             <a n:href="Address:edit $adr->id" class="btn btn-warning" role="button">Upravit</a>
                             <a n:href="Address:default $adr->id" class="btn btn-default" role="button">Detail</a>
-                        </td>
+
+                        </td>*}
                     </tr>
                 {/foreach}
 

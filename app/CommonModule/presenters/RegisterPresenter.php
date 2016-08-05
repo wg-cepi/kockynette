@@ -3,6 +3,7 @@
 namespace App\CommonModule\Presenters;
 
 use App\Model\Service\User;
+use Cepi\DateUtils;
 use Nette\Forms\Form;
 use Nette;
 
@@ -48,7 +49,8 @@ class RegisterPresenter extends BasePresenter
         $user = $userService->register([
             'email' => $values->email,
             'password' => password_hash($values->password, PASSWORD_BCRYPT),
-            'role' => \App\Model\Table\User::ROLE_USER
+            'role' => \App\Model\Table\User::ROLE_USER,
+            'created' => DateUtils::Ymd()
         ]);
         if($user){
             $this->flashMessage('Registrace se zdařila');

@@ -86,11 +86,15 @@ class CatPresenter extends BasePresenter
         if($submitButton->name == 'reset') {
             $section = $this->session->getSection('cat');
             $section->filter = null;
+            $this->redirect('list');
         } else {
             $section = $this->session->getSection('cat');
             $section->filter = $form->getValues(true);
-        }
 
-        $this->redirect('list');
+            $params = $this->request->getParameters();
+            unset($params['do']);
+            unset($params['_submit']);
+            $this->redirect('list', $params);
+        }
     }
 }

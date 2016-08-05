@@ -102,11 +102,11 @@
                                 <li><a n:href=":Admin:Handicap:list">Handicapy</a></li>
                                 <li><a n:href=":Admin:Vaccination:list">Očkování</a></li>
                                 <li><a n:href=":Admin:Contact:list">Kontakty</a></li>
-                                <li><a n:href=":Admin:Address:list">Adresy</a></li>
+                                {*<li><a n:href=":Admin:Address:list">Adresy</a></li>*}
                                 <li><a n:href=":Admin:Color:list">Barvy</a></li>
                                 <!--<li><a n:href="Address:default">Adresy</a></li>-->
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
+                                <li><a n:href=":Admin:User:list">Uživatelé</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#">One more separated link</a></li>
                             </ul>
@@ -139,7 +139,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             {if $user->isLoggedIn()}
-                                <li><a href="#">Můj profil</a></li>
+                                <li><a n:href=":Common:User:default">Můj profil</a></li>
                                 <li><a n:href=":Common:Logout:default">Odhlásit se</a></li>
                             {else}
                                 <li><a n:href=":Common:Register:default">Registrace</a></li>

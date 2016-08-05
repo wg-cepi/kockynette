@@ -2,6 +2,7 @@
 
 namespace App\CommonModule\Presenters;
 
+use App\Components\Form\LoginForm;
 use Nette;
 
 
@@ -16,14 +17,7 @@ class LoginPresenter extends BasePresenter
 
     public function createComponentSignInForm()
     {
-        $form = new Nette\Application\UI\Form;
-        $form->addText('email', 'Email')
-            ->setRequired('Prosím vyplňte svůj email.');
-
-        $form->addPassword('password', 'Heslo')
-            ->setRequired('Prosím vyplňte své heslo.');
-
-        //$form->addCheckbox('remember', 'Zůstat přihlášen');
+        $form = new LoginForm();
 
         $form->addSubmit('submit', 'Přihlásit');
 

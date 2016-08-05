@@ -1,0 +1,29 @@
+{block content}
+
+        <div class="table">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Registrován</th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach $users as $u}
+                    <tr>
+                        <td>
+                            {$u->email}
+                            {if $u->id == $user->getId()}
+                                (Vy)
+                            {/if}
+                        </td>
+                        <td>{$u->role}</td>
+                        <td>{$u->created|date:'j.n.Y'}</td>
+                    </tr>
+                {/foreach}
+                </tbody>
+            </table>
+
+
+{/block}

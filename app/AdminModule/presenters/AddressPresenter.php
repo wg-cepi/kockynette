@@ -11,7 +11,7 @@ class AddressPresenter extends BasePresenter
 {
     public $address;
 
-    /** @var Address $colorService */
+    /** @var Address $addressService */
     public $addressService;
 
     public function startup()
@@ -33,36 +33,6 @@ class AddressPresenter extends BasePresenter
     public function actionList()
     {
         $this->template->addresses = $this->addressService->getAll();
-    }
-
-    public function actionEdit($id)
-    {
-
-    }
-
-    public function createComponentEditColorForm()
-    {
-
-    }
-
-    public function editColorFormSuccess(Nette\Forms\Form $form)
-    {
-
-    }
-
-    public function actionAdd()
-    {
-
-    }
-
-    public function createComponentAddColorForm()
-    {
-
-    }
-
-    public function addColorFormSuccess(Nette\Forms\Form $form)
-    {
-
     }
 }
 
